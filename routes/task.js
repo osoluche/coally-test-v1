@@ -136,8 +136,10 @@ router.get('/tasks', auth, async (req, res) => {
             query.completed = completed === 'true'; // Convertir cadena a booleano
         }
 
-        const tasks = await Task.find(query).select('-owner');
+        const tasks = await Task.find(query).select('-owner').sort({ createdAt: -1 });
+        
         res.status(200).send(tasks);
+
     } catch (error) {
         res.status(500).send(error);
     }

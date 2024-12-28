@@ -13,8 +13,11 @@ const swaggerUi = require('swagger-ui-express');
 const app = express();
 const puerto = process.env.PORT || 3000;
 const db = process.env.DBO;
-const auth = require('./middleware/auth');
 
+const auth = require('./middleware/auth');
+const cors = require('cors');
+
+app.use(cors());
 app.use(bodyParser.json());
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -66,12 +69,16 @@ app.get('/', (req, res) => {
     res.json([{ name: 'Coally Test v1' }]);
 });
 
-app.listen(puerto, err => {
+if (require.main === module) {
+    app.listen(puerto, err => {
 
-    if (err) {
+        if (err) {
 
-    }
+        }
 
-    console.log("running ...");
+        console.log("running ...");
 
-});
+    });
+}
+
+module.exports = app;

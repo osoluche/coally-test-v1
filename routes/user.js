@@ -143,7 +143,9 @@ router.post('/login', [
 
         // Crear y firmar el token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+        
+        res.json({ token, client: user.name });
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
